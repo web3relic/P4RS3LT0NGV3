@@ -95,7 +95,24 @@ A powerful web-based text transformation and steganography tool that can encode/
 
 ## 🚀 **Getting Started**
 
-### **Web Version**
+### **Dashboard (Recommended)**
+For the best experience, use the modern dashboard interface:
+1. Open `dashboard.html` in any modern web browser
+2. Explore the dashboard overview with stats and feature cards
+3. Click any feature card to access tools
+4. Use the sidebar for quick navigation between tools
+5. Press `⌘K` (or `Ctrl+K`) for quick search
+
+**Features:**
+- 🎨 Modern, clean interface with dark/light theme
+- 📊 Dashboard overview with quick stats
+- 🔍 Quick search and navigation (⌘K)
+- 📱 Responsive design for all devices
+- ⌨️ Keyboard shortcuts for efficiency
+
+See [DASHBOARD.md](DASHBOARD.md) for detailed documentation.
+
+### **Classic Web Version**
 1. Open `index.html` in any modern web browser
 2. Type text in the input field
 3. Choose a transformation from the categorized buttons
