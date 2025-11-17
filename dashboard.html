@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P4RS3LT0NGV3 - Dashboard</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div id="app" :class="{ 'dark': isDarkTheme }">
+        <!-- Sidebar -->
+        <aside class="sidebar" :class="{ 'collapsed': sidebarCollapsed }">
+            <div class="sidebar-header">
+                <div class="logo-section">
+                    <div class="logo-icon">🐍</div>
+                    <span class="logo-text" v-if="!sidebarCollapsed">P4RS3LT0NGV3</span>
+                </div>
+                <button class="sidebar-toggle" @click="toggleSidebar" title="Toggle Sidebar">
+                    <i class="fas" :class="sidebarCollapsed ? 'fa-chevron-right' : 'fa-chevron-left'"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-search" v-if="!sidebarCollapsed">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search..." v-model="searchQuery">
+                <kbd>⌘K</kbd>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-item" :class="{ active: activeView === 'dashboard' }" @click="setView('dashboard')">
+                        <i class="fas fa-th-large"></i>
+                        <span v-if="!sidebarCollapsed">Dashboard</span>
+                    </div>
+                    <div class="nav-item" :class="{ active: activeView === 'transforms' }" @click="setView('transforms')">
+                        <i class="fas fa-font"></i>
+                        <span v-if="!sidebarCollapsed">Transforms</span>
+                    </div>
+                    <div class="nav-item" :class="{ active: activeView === 'steganography' }" @click="setView('steganography')">
+                        <i class="fas fa-smile"></i>
+                        <span v-if="!sidebarCollapsed">Steganography</span>
+                    </div>
+                    <div class="nav-item" :class="{ active: activeView === 'tokenade' }" @click="setView('tokenade')">
+                        <i class="fas fa-bomb"></i>
+                        <span v-if="!sidebarCollapsed">Tokenade</span>
+                    </div>
+                    <div class="nav-item" :class="{ active: activeView === 'mutation' }" @click="setView('mutation')">
+                        <i class="fas fa-bug"></i>
+                        <span v-if="!sidebarCollapsed">Mutation Lab</span>
+                    </div>
+                    <div class="nav-item" :class="{ active: activeView === 'tokenizer' }" @click="setView('tokenizer')">
+                        <i class="fas fa-layer-group"></i>
+                        <span v-if="!sidebarCollapsed">Tokenizer</span>
+                    </div>
+                </div>
+
+                <div class="nav-divider" v-if="!sidebarCollapsed"></div>
+
+                <div class="nav-section" v-if="!sidebarCollapsed">
+                    <div class="nav-section-label">Quick Tools</div>
+                    <div class="nav-item" :class="{ active: activeView === 'decoder' }" @click="setView('decoder')">
+                        <i class="fas fa-magic"></i>
+                        <span>Universal Decoder</span>
+                    </div>
+                    <div class="nav-item" @click="openHistory">
+                        <i class="fas fa-history"></i>
+                        <span>History</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer" v-if="!sidebarCollapsed">
+                <div class="footer-actions">
+                    <div class="nav-item" @click="toggleTheme">
+                        <i class="fas" :class="isDarkTheme ? 'fa-moon' : 'fa-sun'"></i>
+                        <span>{{ isDarkTheme ? 'Dark' : 'Light' }} Mode</span>
+                    </div>
+                    <div class="nav-item">
+                        <i class="fab fa-github"></i>
+                        <a href="https://github.com/elder-plinius/P4RS3LT0NGV3" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 class="page-title">{{ getPageTitle() }}</h1>
+                    <p class="page-subtitle">{{ getPageSubtitle() }}</p>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" @click="openHistory" title="View History">
+                        <i class="fas fa-history"></i>
+                    </button>
+                    <button class="header-btn" @click="toggleTheme" title="Toggle Theme">
+                        <i class="fas" :class="isDarkTheme ? 'fa-moon' : 'fa-sun'"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard View -->
+            <div v-if="activeView === 'dashboard'" class="view-content">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon encoding">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Encodings</div>
+                            <div class="stat-value">50+</div>
+                            <div class="stat-desc">Different text transformations</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon steganography">
+                            <i class="fas fa-user-secret"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Steganography</div>
+                            <div class="stat-value">3</div>
+                            <div class="stat-desc">Hidden message methods</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon payload">
+                            <i class="fas fa-bomb"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Payloads</div>
+                            <div class="stat-value">{{ transformHistory.length }}</div>
+                            <div class="stat-desc">Generated this session</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon languages">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <div class="stat-content">
+                            <div class="stat-label">Languages</div>
+                            <div class="stat-value">15+</div>
+                            <div class="stat-desc">Fantasy & ancient scripts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="feature-card" @click="setView('transforms')">
+                        <div class="feature-icon">
+                            <i class="fas fa-font"></i>
+                        </div>
+                        <h3>Text Transformations</h3>
+                        <p>Transform text using 50+ different encodings, ciphers, and visual styles</p>
+                        <div class="feature-tags">
+                            <span class="tag">Base64</span>
+                            <span class="tag">ROT13</span>
+                            <span class="tag">Morse</span>
+                            <span class="tag">+47 more</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" @click="setView('steganography')">
+                        <div class="feature-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <h3>Emoji Steganography</h3>
+                        <p>Hide secret messages within emojis using variation selectors</p>
+                        <div class="feature-tags">
+                            <span class="tag">Invisible</span>
+                            <span class="tag">Secure</span>
+                            <span class="tag">Unicode</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" @click="setView('tokenade')">
+                        <div class="feature-icon">
+                            <i class="fas fa-bomb"></i>
+                        </div>
+                        <h3>Tokenade Generator</h3>
+                        <p>Create dense token payloads for LLM testing and analysis</p>
+                        <div class="feature-tags">
+                            <span class="tag">High Density</span>
+                            <span class="tag">Testing</span>
+                            <span class="tag">Advanced</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" @click="setView('mutation')">
+                        <div class="feature-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h3>Mutation Lab</h3>
+                        <p>Generate mutated payload variations for comprehensive testing</p>
+                        <div class="feature-tags">
+                            <span class="tag">Fuzzing</span>
+                            <span class="tag">Variants</span>
+                            <span class="tag">Bulk</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" @click="setView('decoder')">
+                        <div class="feature-icon">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <h3>Universal Decoder</h3>
+                        <p>Automatically detect and decode any supported transformation</p>
+                        <div class="feature-tags">
+                            <span class="tag">Smart</span>
+                            <span class="tag">Auto-detect</span>
+                            <span class="tag">Universal</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" @click="setView('tokenizer')">
+                        <div class="feature-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>Tokenizer Visualization</h3>
+                        <p>Visualize how different tokenizers segment your text</p>
+                        <div class="feature-tags">
+                            <span class="tag">GPT-4</span>
+                            <span class="tag">Analysis</span>
+                            <span class="tag">Visual</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-start">
+                    <h2><i class="fas fa-rocket"></i> Quick Start</h2>
+                    <ol>
+                        <li><strong>Choose a Tool:</strong> Select from Transforms, Steganography, or Tokenade</li>
+                        <li><strong>Enter Text:</strong> Type or paste your text into the input field</li>
+                        <li><strong>Apply Transform:</strong> Click any transformation button to encode</li>
+                        <li><strong>Auto-Copy:</strong> Results are automatically copied to your clipboard</li>
+                        <li><strong>Decode:</strong> Use the Universal Decoder to reverse any encoding</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Other views (Transforms, Steganography, etc.) load the original content -->
+            <div v-if="activeView !== 'dashboard'" class="view-content">
+                <iframe
+                    :src="'index.html#' + activeView"
+                    frameborder="0"
+                    width="100%"
+                    height="100%"
+                    id="content-frame"
+                    @load="handleFrameLoad"
+                ></iframe>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
